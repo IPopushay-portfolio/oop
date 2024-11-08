@@ -3,7 +3,8 @@ def test_category_init_(category_count, product_count):
     assert category_count.name == "Смартфоны"
     assert category_count.description == ("Смартфоны, как средство не только "
                                           "коммуникации, но и получения "
-                                          "дополнительных функций для удобства жизни"
+                                          "дополнительных функций для удобства"
+                                          " жизни"
                                           )
     assert category_count.products == "Product"
     assert len(category_count.product_list) == 2
