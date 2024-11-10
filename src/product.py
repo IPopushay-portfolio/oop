@@ -8,18 +8,44 @@ class Product:
     product_list: list
     """Для класса Product определены свойства"""
 
-    def __init__(self, name, description, price, quantity, product_list=None):
+    def __init__(self, name: str, description: str, price: float, quantity: int, product_list=None):
         """Функция опеределяет конструктор класса Product и его атрибуты
         (свойства)"""
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
         self.product_list = product_list
 
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, value: int):
+        if value <= 0:
+            print("Цена не должна быть 0 или < 0")
+        else:
+            self.__price = value
+
+    @classmethod
+    def new_product(cls, dict_product):
+        name = dict_product.get("name")
+        description = dict_product.get("description")
+        price = dict_product.get("price")
+        quantity = dict_product.get("quantity")
+        return cls(name, description, price, quantity)
+
+    def __repr__(self):
+        return (
+            f"Product(name = {self.name}, description = "
+            f"{self.description}, price = {self.price}, "
+            f"quantity = {self.quantity})"
+        )
+
 
 if __name__ == "__main__":
-    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет," "200MP камера", 180000.0, 5)
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
