@@ -2,8 +2,7 @@ from typing import Any
 
 import pytest
 
-from src.category import Category
-from src.product import Product
+from src.category import Category, Product
 
 
 @pytest.fixture
