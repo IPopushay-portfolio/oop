@@ -6,10 +6,10 @@ class Product:
     price: float
     quantity: int
     product_list: list
-    stock: int
+    pay: float
     """Для класса Product определены свойства"""
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, product_list=None, stock=0):
+    def __init__(self, name: str, description: str, price: float, quantity: int, product_list=None):
         """Функция опеределяет конструктор класса Product и его атрибуты
         (свойства)"""
         self.name = name
@@ -17,7 +17,7 @@ class Product:
         self.__price = price
         self.quantity = quantity
         self.__product_list = product_list
-        self.stock = stock
+        self.pay = self.price * self.quantity
 
     @property
     def price(self):
@@ -31,7 +31,10 @@ class Product:
             self.__price = value
 
     def __str__(self):
-        return f"{self.name}, {self.__price} руб. {self.quantity}: шт.\n"
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
+    def add_product(self, other):
+        return self.pay + other.pay
 
     @classmethod
     def new_product(cls, dict_product):
