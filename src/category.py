@@ -22,11 +22,14 @@ class Category:
         self.product_list = product_list
         Category.category_count += 1
 
+    def __str__(self):
+        return f"{self.name}, {self.category_count}: {self.product_count}шт."
+
     @property
     def products(self):
         new_str = ""
         for product in self.__products:
-            new_str += f"{product.name}, {product.price} руб. Остаток {product.quantity} шт.\n"
+            new_str += f"{str(product)}\n"
             return new_str
 
     def add_product(self, product: Product):

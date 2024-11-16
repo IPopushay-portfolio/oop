@@ -6,16 +6,18 @@ class Product:
     price: float
     quantity: int
     product_list: list
+    stock: int
     """Для класса Product определены свойства"""
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, product_list=None):
+    def __init__(self, name: str, description: str, price: float, quantity: int, product_list=None, stock=0):
         """Функция опеределяет конструктор класса Product и его атрибуты
         (свойства)"""
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
-        self.product_list = product_list
+        self.__product_list = product_list
+        self.stock = stock
 
     @property
     def price(self):
@@ -27,6 +29,9 @@ class Product:
             print("Цена не должна быть 0 или < 0")
         else:
             self.__price = value
+
+    def __str__(self):
+        return f"{self.name}, {self.__price} руб. {self.quantity}: шт.\n"
 
     @classmethod
     def new_product(cls, dict_product):

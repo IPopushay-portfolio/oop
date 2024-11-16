@@ -38,3 +38,9 @@ def test_product_init_(category, prod_3) -> None:
     assert category.products == (
         "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток 5 шт.\nIphone 15, 210000.0 руб. Остаток 8 шт.\n"
     )
+
+
+def test_prod_iterator(prod_iterator):
+    iter(prod_iterator)
+    assert prod_iterator.index == 0
+    assert next(prod_iterator).name == "Samsung Galaxy S23 Ultra"
