@@ -25,16 +25,16 @@ class Category:
     def __str__(self):
         return f"{self.name}, количество продуктов: {self.product_count} шт."
 
+    def add_product(self, product: Product):
+        self.__products.append(product)
+        Category.product_count += 1
+
     @property
     def products(self):
         new_str = ""
         for product in self.__products:
             new_str += f"{str(product)}\n"
             return new_str
-
-    def add_product(self, product: Product):
-        self.__products.append(product)
-        Category.product_count += 1
 
 
 if __name__ == "__main__":
