@@ -34,8 +34,10 @@ class Product:
     def __str__(self):
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
-    def add_product(self, other):
-        return self.pay + other.pay
+    def __add__(self, other):
+        if type(other) is Product:
+            return (self.__price * self.quantity) + (other.__price * other.quantity)
+        raise TypeError
 
     @classmethod
     def new_product(cls, dict_product):
@@ -58,17 +60,6 @@ if __name__ == "__main__":
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
-    print(product1.name)
-    print(product1.description)
-    print(product1.price)
-    print(product1.quantity)
-
-    print(product2.name)
-    print(product2.description)
-    print(product2.price)
-    print(product2.quantity)
-
-    print(product3.name)
-    print(product3.description)
-    print(product3.price)
-    print(product3.quantity)
+    print(str(product1))
+    print(str(product2))
+    print(str(product3))
