@@ -1,4 +1,21 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class MixinProduct:
+    def __init__(self):
+        print(repr(self))
+
+    def __repr__(self):
+        return {self.__class__.__name__}(f"{self.name}, {self.description}, {self.price}, {self.quantity}")
+
+
+class BaseProduct(ABC):
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+
+class Product(MixinProduct, BaseProduct):
     """Создан класс Product"""
 
     name: str
@@ -18,6 +35,7 @@ class Product:
         self.quantity = quantity
         self.__product_list = product_list
         self.pay = self.price * self.quantity
+        super().__init__()
 
     @property
     def price(self):

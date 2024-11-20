@@ -1,7 +1,25 @@
+from abc import ABC, abstractmethod
+
 from src.product import Product
 
 
-class Category:
+class Abstract(ABC):
+    @abstractmethod
+    def __repr__(self):
+        pass
+
+
+class Order(Abstract):
+    def __init__(self, product, buy_count):
+        self.product = product
+        self.buy_count = buy_count
+        self.total_price = self.buy_count * product.price
+
+    def __repr__(self):
+        return f"{self.product.name}, куплено {self.buy_count} шт. Итоговая стоимость = {self.total_price}."
+
+
+class Category(Abstract):
     """Создан класс Category"""
 
     name: str
@@ -23,11 +41,7 @@ class Category:
         Category.category_count += 1
 
     def __str__(self):
-        return f"{self.name}, количество продуктов: {self.product_count} шт."
-
-    def add_product(self, product: Product):
-        self.__products.append(product)
-        Category.product_count += 1
+        return f"{self.name}, количество продуктов: {self.product_list} шт."
 
     @property
     def products(self):
@@ -35,6 +49,12 @@ class Category:
         for product in self.__products:
             new_str += f"{str(product)}\n"
             return new_str
+
+    def add_product(self, product: Product):
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        raise TypeError
 
 
 if __name__ == "__main__":
@@ -59,9 +79,7 @@ if __name__ == "__main__":
 
     category1 = Category(
         "Смартфоны",
-        "Смартфоны, как средство не только коммуникации,"
-        " но и получения дополнительных функций для удобства "
-        "жизни",
+        "Смартфоны, как средство не только коммуникации, но и получения " "дополнительных функций для удобства жизни",
         [product1, product2, product3],
     )
 
@@ -74,7 +92,7 @@ if __name__ == "__main__":
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
     category2 = Category(
         "Телевизоры",
-        "Современный телевизор, который позволяет " "наслаждаться просмотром, станет вашим другом и " "помощником",
+        "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим " "другом и помощником",
         [product4],
     )
 
