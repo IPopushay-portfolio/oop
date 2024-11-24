@@ -1,3 +1,5 @@
+from typing import Any
+
 from src.category import Category, Product
 
 
@@ -10,7 +12,7 @@ class ProductIterator:
     def __iter__(self):
         return self
 
-    def __next__(self):
+    def __next__(self) -> Any:
         if self.index < len(self.category.product_list):
             product = self.category.product_list[self.index]
             self.index += 1
@@ -28,6 +30,16 @@ if __name__ == "__main__":
     print(product1.description)
     print(product1.price)
     print(product1.quantity)
+
+    print(product2.name)
+    print(product2.description)
+    print(product2.price)
+    print(product2.quantity)
+
+    print(product3.name)
+    print(product3.description)
+    print(product3.price)
+    print(product3.quantity)
 
     category1 = Category(
         "Смартфоны",

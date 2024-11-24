@@ -1,12 +1,6 @@
 from abc import ABC, abstractmethod
 
-
-class MixinProduct:
-    def __init__(self):
-        print(repr(self))
-
-    def __repr__(self):
-        return {self.__class__.__name__}, (f"{self.name}, {self.description}, {self.price}, {self.quantity}")
+from src.print_mixin import PrintMixin
 
 
 class BaseProduct(ABC):
@@ -15,7 +9,7 @@ class BaseProduct(ABC):
         pass
 
 
-class Product(MixinProduct, BaseProduct):
+class Product(BaseProduct, PrintMixin):
     """Создан класс Product"""
 
     name: str
@@ -32,7 +26,10 @@ class Product(MixinProduct, BaseProduct):
         self.name = name
         self.description = description
         self.__price = price
-        self.quantity = quantity
+        if quantity != 0:
+            self.quantity = quantity
+        else:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         self.__product_list = product_list
         self.pay = self.price * self.quantity
         super().__init__()

@@ -16,21 +16,24 @@ class Order(Abstract):
         self.total_price = self.buy_count * product.price
 
     def __repr__(self):
-        return f"{self.product.name}, куплено {self.buy_count} шт. Итоговая стоимость = {self.total_price}."
+        return (
+            f"{self.__class__.__name__}({self.product.name}, куплено {self.buy_count} шт."
+            f"Итоговая стоимость {self.total_price})"
+        )
 
 
-class Category(Abstract):
+class Category(ABC):
     """Создан класс Category"""
 
     name: str
     description: str
-    products: int
+    products: list
     product_list: list
     category_count = 0
     product_count = 0
     """Для класса Category определены свойства"""
 
-    def __init__(self, name: str, description: str, products: int, product_list=None):
+    def __init__(self, name: str, description: str, products: list, product_list=None):
         """Функция опеределяет конструктор класса Category и его атрибуты
         (свойства)"""
         self.name = name
@@ -50,11 +53,16 @@ class Category(Abstract):
             new_str += f"{str(product)}\n"
             return new_str
 
-    def add_product(self, product: Product):
-        if isinstance(product, Product):
-            self.__products.append(product)
-            Category.product_count += 1
-        raise TypeError
+    def middle_price(self):
+        try:
+            return sum([product.price for product in self.product_list]) / len(self.product_list)
+        except ZeroDivisionError:
+            return 0
+
+    def __add__(self, __products):
+        if not isinstance(__products, Category):
+            raise TypeError
+        return self.category_count + self.category_count
 
 
 if __name__ == "__main__":
@@ -79,7 +87,7 @@ if __name__ == "__main__":
 
     category1 = Category(
         "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения " "дополнительных функций для удобства жизни",
+        "Смартфоны, как средство не только коммуникации, но и получения" " дополнительных функций для удобства жизни",
         [product1, product2, product3],
     )
 
@@ -92,7 +100,7 @@ if __name__ == "__main__":
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
     category2 = Category(
         "Телевизоры",
-        "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим " "другом и помощником",
+        "Современный телевизор, который позволяет наслаждаться " "просмотром, станет вашим другом и помощником",
         [product4],
     )
 
