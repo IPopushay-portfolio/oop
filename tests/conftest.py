@@ -22,14 +22,23 @@ def product3() -> Any:
 
 
 @pytest.fixture
-def category(prod_1: Product, prod_2: Product) -> Any:
+def category(product1: Product, product2: Product) -> Any:
     return Category(
         "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, " "но и получения дополнительных функций для удобства жизни",
-        [prod_1, prod_2],
+        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций " "для удобства жизни",
+        [product1, product2],
     )
 
 
 @pytest.fixture
 def prod_iterator(prod_iterator):
     return ProductIterator(prod_iterator)
+
+
+@pytest.fixture
+def zero_product(some) -> Any:
+    return Category(
+        "Some",
+        "Some",
+        [some],
+    )
