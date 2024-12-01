@@ -1,46 +1,83 @@
-from product import Product
+from abc import ABC, abstractmethod
+
+from mypy.types import NoneTyp
+from mypy.types_utils import NoneType
+
+from src.product import Product
 
 
-class Category:
+class Abstract(ABC):
+    @abstractmethod
+    def __repr__(self):
+        pass
+
+
+class Order(Abstract):
+    def __init__(self, product, buy_count):
+        self.product = product
+        self.buy_count = buy_count
+        self.total_price = self.buy_count * product.price
+
+    def __repr__(self):
+        return (
+            f"{self.__class__.__name__}({self.product.name}, куплено {self.buy_count} шт."
+            f"Итоговая стоимость {self.total_price})"
+        )
+
+
+class Category(ABC):
+    """Создан класс Category"""
+
     name: str
     description: str
-    products: int
+    products: list
     product_list: list
     category_count = 0
-    all_cat_count = 0
     product_count = 0
-    all_prod_count = 0
+    """Для класса Category определены свойства"""
 
-    def __init__(self, name, description, products, product_list=None):
+    def __init__(self, name: str, description: str, products: list, product_list=None):
+        """Функция опеределяет конструктор класса Category и его атрибуты
+        (свойства)"""
         self.name = name
         self.description = description
-        self.products = products
-        self.product_list = product_list if product_list else []
+        self.__products = products if products else []
+        self.__products.append(products)
+        self.product_list = product_list
         Category.category_count += 1
-        Category.all_cat_count += len(product_list) if product_list else 0
+
+    def __str__(self):
+        return f"{self.name}, количество продуктов: {self.product_list} шт."
+
+    @property
+    def products(self):
+        new_str = ""
+        for product in self.__products:
+            new_str += f"{str(product)}\n"
+            return new_str
+
+    def middle_price(self):
+        try:
+            return sum([product.price for product in self.product_list]) / len(self.product_list)
+        except ZeroDivisionError:
+            return 0
+
+    def add_product(self, __products):
+        if isinstance(__products, Category):
+            try:
+                if Category.products == 0:
+                    raise ValueError("В категории нет товара")
+            except ValueError as e:
+                print(str(e))
+            else:
+                self.__products.append(__products)
+                Category.category_count += 1
+                print("Задача выполнена успешно")
+            finally:
+                print("Обработка добавления задачи завершена")
+        else:
+
+            raise TypeError
+        return self.category_count + self.category_count
 
 
-if __name__ == "__main__":
-    category1 = Category("Смартфоны",
-                         "Смартфоны, как средство не только коммуникации, "
-                         "но и получения дополнительных "
-                         "функций для удобства жизни",
-                         [Product])
-
-    print(category1.name == "Смартфоны")
-    print(category1.description)
-    print(len(category1.product_list))
-    print(category1.category_count)
-    print(category1.product_count)
-
-    product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
-    category2 = Category("Телевизоры", "Современный телевизор, станет вашим "
-                                       "другом и помощником", [product4])
-
-    print(category2.name)
-    print(category2.description)
-    print(len(category2.product_list))
-    print(category2.products)
-
-    print(Category.category_count)
-    print(Category.product_count)
